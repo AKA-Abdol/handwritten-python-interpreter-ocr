@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 from skimage.feature import hog
 import joblib
+from distance import levenshtein as diff
 
 
 def load(model):
@@ -81,3 +82,20 @@ def perform_ocr(img, clf, write=True):
             cv2.putText(img, digit, (x, y), font, 0.8, (255, 0, 0), 2)
 
     return recognized
+
+def get_difference_ratio(reference, candidate):
+    diff_count = diff(reference, candidate)
+    return 100 * diff_count / len(reference)
+
+DIFFERENCE_RATIO_THRESHOLD = 40
+
+def get_python_syntax(string):
+    db = [x for x in open('./commands.txt').read().split()]
+    ratios = []
+    for word in db:
+        ratio = get_difference_ratio(word, string)
+        if(ratio < DIFFERENCE_RATIO_THRESHOLD):
+            ratios.append([word, ratio])
+    
+    ratios.sort(key = lambda x: x[1])
+    return [ ratios[0][0] ] if len(ratios) else []

@@ -1,0 +1,9 @@
+int
+input
+if
+else
+elif
+while
+for
+str
+split

@@ -4,13 +4,16 @@ import cv2
 # load the classifier
 clf = engine.load('word_classifier_knn2.model')
 
-name = "./images/test3.jpg"
+name = "./images/cmd5.jpg"
 img = cv2.imread(name)
 chars = engine.perform_ocr(img, clf)
 
 # make up the number from the individual digits
 # and compute its square
 word = ''.join(chars)
+python_instance = engine.get_python_syntax(word)
+if(len(python_instance)):
+    word = python_instance[0]
 
 # display the information
 font = cv2.FONT_HERSHEY_SIMPLEX
