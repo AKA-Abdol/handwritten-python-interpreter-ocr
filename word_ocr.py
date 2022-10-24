@@ -4,7 +4,7 @@ import cv2
 # load the classifier
 clf = engine.load('word_classifier_knn2.model')
 
-name = "./images/cmd5.jpg"
+name = "./images/multiline1.jpg"
 img = cv2.imread(name)
 chars = engine.perform_ocr(img, clf)
 
@@ -12,6 +12,7 @@ chars = engine.perform_ocr(img, clf)
 # and compute its square
 word = ''.join(chars)
 word = engine.get_python_syntax(word)
+print(word)
 
 # display the information
 font = cv2.FONT_HERSHEY_SIMPLEX
