@@ -7,3 +7,7 @@ while
 for
 str
 split
+append
+pop
+range
+cvtColor

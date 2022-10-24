@@ -122,7 +122,7 @@ def get_difference_ratio(reference, candidate):
     return 100 * diff_count / len(reference)
 
 
-DIFFERENCE_RATIO_THRESHOLD = 40
+DIFFERENCE_RATIO_THRESHOLD = 60
 
 
 def get_python_syntax(string):
@@ -130,6 +130,7 @@ def get_python_syntax(string):
     ratios = []
     for word in db:
         ratio = get_difference_ratio(word, string)
+        print(word, ratio)
         if (ratio < DIFFERENCE_RATIO_THRESHOLD):
             ratios.append([word, ratio])
 
