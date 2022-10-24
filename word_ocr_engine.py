@@ -98,4 +98,4 @@ def get_python_syntax(string):
             ratios.append([word, ratio])
     
     ratios.sort(key = lambda x: x[1])
-    return [ ratios[0][0] ] if len(ratios) else []
+    return ratios[0][0] if len(ratios) else string
