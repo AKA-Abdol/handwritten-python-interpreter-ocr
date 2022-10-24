@@ -1,0 +1,13 @@
+# test images
+/images
+
+# extra
+/new
+/final
+
+# others
+things.need
+word_classifier_knn.model
+word_classifier_knn2.model
+digit_classifier_knn.model
+test.py
