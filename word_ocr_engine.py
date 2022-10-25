@@ -30,10 +30,10 @@ def get_bounding_boxes(cnts):
         if (not flag) and (line_flag):
             line_flag = False
             new_line = []
-            print('sorted:', y_sorted[1])
+            #print('sorted:', y_sorted[1])
             for box in y_sorted:
-                print('once')
-                print('here:', box[1] + box[3])
+                # print('once')
+                # print('here:', box[1] + box[3])
                 if box[1] + box[3] < i:
                     new_line.append(box)
 
@@ -43,7 +43,7 @@ def get_bounding_boxes(cnts):
 
             lines.append(sorted(new_line, key = lambda box : box[0]))
 
-    print('count:', len(bounding_boxes), lines)
+    #print('count:', len(bounding_boxes), lines)
     # sort them left to right
     return lines # sorted(bounding_boxes, key=lambda box: box[0])
 
@@ -130,7 +130,7 @@ def get_python_syntax(string):
     ratios = []
     for word in db:
         ratio = get_difference_ratio(word, string)
-        print(word, ratio)
+        #print(word, ratio)
         if (ratio < DIFFERENCE_RATIO_THRESHOLD):
             ratios.append([word, ratio])
 
