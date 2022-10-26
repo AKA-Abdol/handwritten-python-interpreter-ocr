@@ -1,8 +1,10 @@
+from random import gauss
 import cv2
 import numpy as np
 from skimage.feature import hog
 import joblib
 from distance import levenshtein as diff
+from statistics import pvariance, mean
 
 
 def load(model):
@@ -41,7 +43,7 @@ def get_bounding_boxes(cnts):
             lines.append(sorted(new_line, key = lambda box : box[0]))
 
     # sort them left to right
-    return lines # sorted(bounding_boxes, key=lambda box: box[0])
+    return lines
 
 
 def predict_digit(rect, img_thrsh, clf):
@@ -58,7 +60,7 @@ def predict_digit(rect, img_thrsh, clf):
 
     roi = img_thrsh[y: y + h, x: x + w]
 
-    # resize the region of interest to 20x20
+    # resize the region of interest to 28x28
     roi = cv2.resize(roi, (28, 28), interpolation=cv2.INTER_AREA)
     roi = cv2.dilate(roi, (3, 3))
 
@@ -68,8 +70,8 @@ def predict_digit(rect, img_thrsh, clf):
                    cells_per_block=(1, 1))
 
     # predict the number
-    digit = clf.predict([features])
-    return chr(96 + digit[0])
+    char = clf.predict([features])
+    return chr(96 + char[0])
 
 
 def perform_ocr(img, clf, write=True):
@@ -90,6 +92,7 @@ def perform_ocr(img, clf, write=True):
 
     recognized = []
     for line in lines:
+        initial_len = len(recognized)
         for box in line:
             x, y, w, h = box
             x -= 5
@@ -103,10 +106,23 @@ def perform_ocr(img, clf, write=True):
             char = str(predict_digit(box, img_thrsh, clf))
             recognized.append(char)
 
-            # write the recognized digits on the image
+            # write the recognized di# sorted(bounding_boxes, key=lambda box: box[0])gits on the image
             if write:
                 font = cv2.FONT_HERSHEY_SIMPLEX
                 cv2.putText(img, char, (x, y), font, 0.8, (255, 0, 0), 2)
+        
+        var_coeff = 1.25
+        diff_line = []
+        for i in range(1, len(line)):
+            diff_line.append(line[i][0] - line[i - 1][0])
+        print('line_diff:', diff_line, 'thresh:', mean(diff_line) + var_coeff * (pvariance(diff_line) ** 0.5))
+        
+        gaussian_thresh = mean(diff_line) + var_coeff * (pvariance(diff_line) ** 0.5)
+        for i in range(len(diff_line)):
+            if diff_line[i] > gaussian_thresh:
+                recognized.insert(initial_len + i + 1, ' ')
+                initial_len += 1
+
         recognized.append('\n')
 
     return recognized

@@ -4,14 +4,14 @@ import cv2
 # load the classifier
 clf = engine.load('word_classifier_knn2.model')
 
-name = "./images/multiline4.jpg"
+name = "./images/multiline9.jpg"
 img = cv2.imread(name)
 chars = engine.perform_ocr(img, clf)
 
 # make up the number from the individual digits
 # and compute its square
 word = ''.join(chars)
-word = '\n'.join([engine.get_python_syntax(sub_word) for sub_word in word.split('\n')])
+word = '\n'.join([' '.join([engine.get_python_syntax(word) for word in sub_word.split(' ')]) for sub_word in word.split('\n')])
 print(word)
 
 # display the information
