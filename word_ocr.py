@@ -4,7 +4,7 @@ import cv2
 # load the classifier
 clf = engine.load('word_classifier_knn2.model')
 
-name = "./images/multiline3.jpg"
+name = "./images/multiline4.jpg"
 img = cv2.imread(name)
 chars = engine.perform_ocr(img, clf)
 

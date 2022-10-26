@@ -30,10 +30,7 @@ def get_bounding_boxes(cnts):
         if (not flag) and (line_flag):
             line_flag = False
             new_line = []
-            #print('sorted:', y_sorted[1])
             for box in y_sorted:
-                # print('once')
-                # print('here:', box[1] + box[3])
                 if box[1] + box[3] < i:
                     new_line.append(box)
 
@@ -43,7 +40,6 @@ def get_bounding_boxes(cnts):
 
             lines.append(sorted(new_line, key = lambda box : box[0]))
 
-    #print('count:', len(bounding_boxes), lines)
     # sort them left to right
     return lines # sorted(bounding_boxes, key=lambda box: box[0])
 
@@ -70,7 +66,6 @@ def predict_digit(rect, img_thrsh, clf):
     features = hog(roi,
                    pixels_per_cell=(PPC, PPC),
                    cells_per_block=(1, 1))
-    # print (features)
 
     # predict the number
     digit = clf.predict([features])
@@ -130,7 +125,6 @@ def get_python_syntax(string):
     ratios = []
     for word in db:
         ratio = get_difference_ratio(word, string)
-        #print(word, ratio)
         if (ratio < DIFFERENCE_RATIO_THRESHOLD):
             ratios.append([word, ratio])
 
