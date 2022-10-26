@@ -18,5 +18,5 @@ print(word)
 font = cv2.FONT_HERSHEY_SIMPLEX
 cv2.putText(img, word, (0, 40), font, 1, (255, 0, 0), 2)
 
-cv2.imshow("words", img)
+cv2.imshow("words", cv2.resize(img, (800, 800), interpolation = cv2.INTER_AREA))
 cv2.waitKey(0)

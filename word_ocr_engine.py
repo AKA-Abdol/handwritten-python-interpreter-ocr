@@ -79,7 +79,7 @@ def perform_ocr(img, clf, write=True):
     img_gray_blur = cv2.GaussianBlur(img_gray, (5, 5), 0)
     _, img_thrsh = cv2.threshold(
         img_gray_blur, 120, 255, cv2.THRESH_BINARY_INV)
-    cv2.imshow('bebin', img_thrsh)
+    cv2.imshow('thresholded image', cv2.resize(img_thrsh, (800, 800), interpolation = cv2.INTER_AREA))
     cv2.waitKey()
     # find the contours of the digits
     contours, _ = cv2.findContours(
